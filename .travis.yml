@@ -37,7 +37,8 @@ env:
   # IAM_PROFILE_NAME
   - secure: "RYrepkubeOJs5BmH296X/BIkyKSOIL7Exmnhp14LouOgkbuHGgMnMqLF5UlOL0st3Fg4F3/ywbZTrbX9shkNH6SVoGFBwGXgMeMKbdxHDa4y3oXAgJUV92lOiOima8/Ws8dnyr1hZeVxb421ajnX+pAC/pNA0jkprDGUHzulttE="
 
-script: bundle exec rspec --color --format progress
+script: cd spec/e2e; bundle install; kitchen converge default-ubuntu-1204
+#script: bundle exec rspec --color --format progress
 
 notifications:
   on_success: change
