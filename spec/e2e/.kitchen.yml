@@ -1,0 +1,28 @@
+---
+driver:
+  # name: vagrant
+  # synched_folders:
+  #   ["~/oc/e2e-testing", "home/vagrant/e2e-testing"]
+
+  name: ec2
+  region: us-west-2
+  availability_zone: us-west-2b
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY'] %>
+  iam_profile_name: <%= ENV['IAM_PROFILE_NAME'] %>
+  require_chef_omnibus: true
+
+provisioner:
+  name: chef_solo
+  chef_git_sha: 9ec6b92b9eefc07b35e6d36bad3568cfd7bf82d4
+  chef_git_url: "github.com/opscode/chef"
+
+platforms:
+  - name: ubuntu-12.04
+  - name: centos-6.4
+
+suites:
+  - name: default
+    run_list:
+    attributes:
