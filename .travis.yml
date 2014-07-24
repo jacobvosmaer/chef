@@ -20,6 +20,17 @@ matrix:
     - rvm: 2.1.1
       gemfile: pedant.gemfile
       script: bundle exec rake pedant
+    - rvm: 2.1.1
+      script: cd spec/e2e; bundle install; bundle exec kitchen test default-ubuntu-1204
+      env:
+        # access key id
+        - secure: "cSoSxpNYaAjZRn5vbvPrSGZJ3qnQSD3gBriErMO8Y53wFfswViqSbrc57TYR8tROHcbhi0Sj5ar7p9nyKZNj5Wr+UIkd4jRthbpS9GBVAVscmTOotgbZt1o1QeJ0ZarE3JzrpTQPnDM++QtVOD8+WOp2VvSIGN24fhuvV5jKtzk="
+        # secret access key
+        - secure: "M/NeE28egHUKFLfToMKuVVvQuGbBGz4k6xlYV37vACk7d88qqREXWh6dS0xJY8zptJkc1QHS6Xzb3uqT1vYr65JJ7v0zjhLxaqeTzaq5FfPJoFVkMatRDtFydIP/7iPz/FADoC8HeFb5O2S6YvlO7CUHsVx2qEtwTZC31azPg/Q="
+        # ssh key id
+        - secure: "Kx+2+duNRhSaYj1MoBqM0kgP5y2gUyQq17x6uqAh2gpWiU7DpkHm5R40Llk6TQjHpkzwe5JGWcnMzhQV61F7r4fKPS53qbRW2nFJogCt/nZDKRIY6oV4a3Cgyw6XVuZuRN/VF/UP/cew3mVzhq27ic3YMZl9CPUBtL5i2268bHU="
+        # iam profile name
+        - secure: "RYrepkubeOJs5BmH296X/BIkyKSOIL7Exmnhp14LouOgkbuHGgMnMqLF5UlOL0st3Fg4F3/ywbZTrbX9shkNH6SVoGFBwGXgMeMKbdxHDa4y3oXAgJUV92lOiOima8/Ws8dnyr1hZeVxb421ajnX+pAC/pNA0jkprDGUHzulttE="
 
 branches:
   only:
@@ -27,18 +38,7 @@ branches:
     - 10-stable
     - 11-stable
 
-env:
-  # AWS_ACCESS_KEY
-  - secure: "cSoSxpNYaAjZRn5vbvPrSGZJ3qnQSD3gBriErMO8Y53wFfswViqSbrc57TYR8tROHcbhi0Sj5ar7p9nyKZNj5Wr+UIkd4jRthbpS9GBVAVscmTOotgbZt1o1QeJ0ZarE3JzrpTQPnDM++QtVOD8+WOp2VvSIGN24fhuvV5jKtzk="
-  # AWS_SECRET_KEY
-  - secure: "M/NeE28egHUKFLfToMKuVVvQuGbBGz4k6xlYV37vACk7d88qqREXWh6dS0xJY8zptJkc1QHS6Xzb3uqT1vYr65JJ7v0zjhLxaqeTzaq5FfPJoFVkMatRDtFydIP/7iPz/FADoC8HeFb5O2S6YvlO7CUHsVx2qEtwTZC31azPg/Q="
-  # AWS_SSH_KEY
-  - secure: "Kx+2+duNRhSaYj1MoBqM0kgP5y2gUyQq17x6uqAh2gpWiU7DpkHm5R40Llk6TQjHpkzwe5JGWcnMzhQV61F7r4fKPS53qbRW2nFJogCt/nZDKRIY6oV4a3Cgyw6XVuZuRN/VF/UP/cew3mVzhq27ic3YMZl9CPUBtL5i2268bHU="
-  # IAM_PROFILE_NAME
-  - secure: "RYrepkubeOJs5BmH296X/BIkyKSOIL7Exmnhp14LouOgkbuHGgMnMqLF5UlOL0st3Fg4F3/ywbZTrbX9shkNH6SVoGFBwGXgMeMKbdxHDa4y3oXAgJUV92lOiOima8/Ws8dnyr1hZeVxb421ajnX+pAC/pNA0jkprDGUHzulttE="
-
-script: cd spec/e2e; bundle install; kitchen converge default-ubuntu-1204
-#script: bundle exec rspec --color --format progress
+script: bundle exec rspec --color --format progress
 
 notifications:
   on_success: change
