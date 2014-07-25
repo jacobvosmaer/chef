@@ -10,13 +10,12 @@ matrix:
     - echo -n $DO_KEY_CHUNK_{0..30} >> ~/.ssh/id_aws.base64
     - cat ~/.ssh/id_aws.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_aws.pem
     before_script: cd spec/e2e
-    script: bundle exec kitchen test default-ubuntu-1204 -l debug
-    after_script: bundle exec kitchen destroy
+    script: echo $(md5sum ~/.ssh/id_aws.pem)
     env:
     - secure: HnEEBuJN2nwuOmONQtwY+T48cWwmMSXKh/p1XmJRx83aJH7aYecJzotdnU+wCd6Fsy09tNYZMrUnW9/OGR9B6a/3eIsphf4cMtrJU1ee7bZR5ZKSF+/8V1soGgXnC0tRQ6q9aVfBRHnuMQIeuxMSj+XzD5bwIlOR23gD5h0YmjU=
     - secure: c72KYyOeQo6b86f1Gz4c4OST24ahF/PfeA7PkkTQnflYcwSBuN2rD0Bt6slBgG0YRE1GvQku0U7/OHMqdSCuY/6Y0E+bSh9CC9/Q9DM5592oj1r6qW5JK7IN36u6bzGyEf6aPYU8/XV2AoYyhGjxXuHvnD9FNlFASKOkG8ky7sE=
     - secure: bFUCu8B+D0OysdP8ELKATw2sqGR8D2UnRS8FXjnd7PPdpNxuzto/UrgDD+lzO7roF33vF2BrT1+965AFYh7qajzF0G3Nxs7G0AcDp6VOi/NZveMJHnrH/seJ3Ro1yOhDLsUO521KKb0oWKR7bPB7+gJ1xI605BbTW0XRY+qbvmU=
-    - secure: "VQ7YSzV7nMmMI5QU5W3lkUQ/4Ob1NoMmJBj0s/5Mnav6sdN6LffI3vB7EyvYbL2xcac5DFdNKbNgAJ54Kx4uW2ZF6vTI0amaww7QxpDqfPnQT0tF/o77GhKaJhlbqscXTncGECQ6aS4p79Rb0YN/8hYpGfa2vc+FY6W0hMu4n08="
+    - secure: VQ7YSzV7nMmMI5QU5W3lkUQ/4Ob1NoMmJBj0s/5Mnav6sdN6LffI3vB7EyvYbL2xcac5DFdNKbNgAJ54Kx4uW2ZF6vTI0amaww7QxpDqfPnQT0tF/o77GhKaJhlbqscXTncGECQ6aS4p79Rb0YN/8hYpGfa2vc+FY6W0hMu4n08=
     - EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
     - secure: HlqUKU/etP5CUxULha8LzR+xZOej+jH6zPJCxq34xNIycGKVJBFn852Hf/SlSWcJLTIX78xfAnsal55B/w4GsPUrVuiNQ2hj/43D1PuFIqC4dV37AS6swaB+q14+CyFbonYyKnaJmdDMaE1Yh3Tj7jF4+arJlZkq1gMzxpLkLkA=
     - secure: YWlTy/rWEbbYfZrrz9mxc5C0wsob7a3leaFC03sdWbxAtrwjO0UyH2hEgW6EH70V2qZzSyWURHz+Dc9FJbQGe/ZyVzzK3O8gBc/VjImaJ6S06UmViTlqwheFZEUnZfmwFTgG/fjKgc08GQ8OnbyjvA8oj2P8QILx5+GGpqvNuM4=
