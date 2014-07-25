@@ -1,63 +1,53 @@
-# Temporary workaround for issue with rubygems 2.2.0 with bundler 1.5 on ruby
-# 1.8.7.
-#
-# A fix has been merged to rubygems but not yet released. See:
-# https://github.com/rubygems/rubygems/commit/f8e0f1d5f67cfc4e1966cc1e2db367aebf8a09e4
-#
-# See also CHEF-4916
-#
-# This workaround should be removed when that fix is released.
 before_install:
-  - gem update --system 2.1.11
-  - gem --version
+- gem update --system 2.1.11
+- gem --version
 
 matrix:
   include:
-    # Commenting these out for now so that Travis runs don't take forever to
-    # get to the parts I'm working on right now...
-    # - rvm: 1.8.7-p374
-    # - rvm: 1.9.3
-    # - rvm: 2.0.0
-    # - rvm: 2.1.1
-    # - rvm: 2.1.1
-    #   gemfile: pedant.gemfile
-    #   script: bundle exec rake pedant
-    - rvm: 2.1.1
-      gemfile: spec/e2e/Gemfile
-      before_script: cd spec/e2e
-      script: bundle exec kitchen test default-ubuntu-1204 -l debug
-      env:
-        # access key id
-        - secure: "cSoSxpNYaAjZRn5vbvPrSGZJ3qnQSD3gBriErMO8Y53wFfswViqSbrc57TYR8tROHcbhi0Sj5ar7p9nyKZNj5Wr+UIkd4jRthbpS9GBVAVscmTOotgbZt1o1QeJ0ZarE3JzrpTQPnDM++QtVOD8+WOp2VvSIGN24fhuvV5jKtzk="
-        # secret access key
-        - secure: "M/NeE28egHUKFLfToMKuVVvQuGbBGz4k6xlYV37vACk7d88qqREXWh6dS0xJY8zptJkc1QHS6Xzb3uqT1vYr65JJ7v0zjhLxaqeTzaq5FfPJoFVkMatRDtFydIP/7iPz/FADoC8HeFb5O2S6YvlO7CUHsVx2qEtwTZC31azPg/Q="
-        # ssh key id
-        - secure: "Kx+2+duNRhSaYj1MoBqM0kgP5y2gUyQq17x6uqAh2gpWiU7DpkHm5R40Llk6TQjHpkzwe5JGWcnMzhQV61F7r4fKPS53qbRW2nFJogCt/nZDKRIY6oV4a3Cgyw6XVuZuRN/VF/UP/cew3mVzhq27ic3YMZl9CPUBtL5i2268bHU="
-        # iam profile name
-        - secure: "RYrepkubeOJs5BmH296X/BIkyKSOIL7Exmnhp14LouOgkbuHGgMnMqLF5UlOL0st3Fg4F3/ywbZTrbX9shkNH6SVoGFBwGXgMeMKbdxHDa4y3oXAgJUV92lOiOima8/Ws8dnyr1hZeVxb421ajnX+pAC/pNA0jkprDGUHzulttE="
+  - rvm: 2.1.1
+    gemfile: spec/e2e/Gemfile
+    before_install:
+    - echo -n $DO_KEY_CHUNK_{0..30} >> ~/.ssh/id_aws.base64
+    - cat ~/.ssh/id_aws.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_aws.pem
+    before_script: cd spec/e2e
+    script: bundle exec kitchen test default-ubuntu-1204 -l debug
+    after_script: bundle exec kitchen destroy
+    env:
+    - secure: HnEEBuJN2nwuOmONQtwY+T48cWwmMSXKh/p1XmJRx83aJH7aYecJzotdnU+wCd6Fsy09tNYZMrUnW9/OGR9B6a/3eIsphf4cMtrJU1ee7bZR5ZKSF+/8V1soGgXnC0tRQ6q9aVfBRHnuMQIeuxMSj+XzD5bwIlOR23gD5h0YmjU=
+    - secure: c72KYyOeQo6b86f1Gz4c4OST24ahF/PfeA7PkkTQnflYcwSBuN2rD0Bt6slBgG0YRE1GvQku0U7/OHMqdSCuY/6Y0E+bSh9CC9/Q9DM5592oj1r6qW5JK7IN36u6bzGyEf6aPYU8/XV2AoYyhGjxXuHvnD9FNlFASKOkG8ky7sE=
+    - secure: bFUCu8B+D0OysdP8ELKATw2sqGR8D2UnRS8FXjnd7PPdpNxuzto/UrgDD+lzO7roF33vF2BrT1+965AFYh7qajzF0G3Nxs7G0AcDp6VOi/NZveMJHnrH/seJ3Ro1yOhDLsUO521KKb0oWKR7bPB7+gJ1xI605BbTW0XRY+qbvmU=
+    - EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
+    - secure: HlqUKU/etP5CUxULha8LzR+xZOej+jH6zPJCxq34xNIycGKVJBFn852Hf/SlSWcJLTIX78xfAnsal55B/w4GsPUrVuiNQ2hj/43D1PuFIqC4dV37AS6swaB+q14+CyFbonYyKnaJmdDMaE1Yh3Tj7jF4+arJlZkq1gMzxpLkLkA=
+    - secure: YWlTy/rWEbbYfZrrz9mxc5C0wsob7a3leaFC03sdWbxAtrwjO0UyH2hEgW6EH70V2qZzSyWURHz+Dc9FJbQGe/ZyVzzK3O8gBc/VjImaJ6S06UmViTlqwheFZEUnZfmwFTgG/fjKgc08GQ8OnbyjvA8oj2P8QILx5+GGpqvNuM4=
+    - secure: Sd1G7ua7zVSphhav4I8ZO6q3luWN/UAcrfG1Han2q3y7ij9IorzoaDFS16y2ZLTHi4hlS11sJNnyph/Madj/HzHeMW7cyWJgvPLtCSuYaU3ygWEU0YMezOWDXzSDG1+VJ31qtAV0rY6+Kr+bqXvzeQD3X8+Yxy8CTXCcTXhul+M=
+    - secure: bd6+CAhqAzjpY1GSgTlu3jGDnwZ47gIYBHKHFP+7XWNkGqKdB2YPl9R7o3VXePOU9T7u9sNdzOW65f4z4ksZRI5vckXHmwpI/czCBiItEqoF95qLjcMJff/doQG/6pK/Z5oPgqtdikUGaBncxGc1MMteeP/HmmaI6MwJ8IFQ300=
+    - secure: PRL+ckslh4DQ9ayXGUlK2/XV9BeSU4qOkE5Y/LXpaAalaKcRgZ5KNg5TBzfAY/aC0y6G6zDe5gpZCa0q0b9ijayucENMhvGcKqK1VfWVq0NIvq8aSiGejAA0nwMH8nF418JPP/mypNRQsttoaumIbrMmZo/uwzXw8Iv0uSG0kOo=
+    - secure: THGPv45dP1yGxx1uh7p1Tf2Z1J+VnrT/4NH34r9GQLOLd2sbQY8omM41JI0xhCsYgQKI/pBoraGQ/rZL52fxOqOc10f5urF4zScNF4Z2RkFPrMG+8vLv2HsVKbPScTj/ELwzizEGvwZolCRPy+ImM/KA/vZVEzPP4Ecn9lu3lBw=
+    - secure: dnD0CVowTq3t0VvMS8LY92kH0qayo519zw6k+pCI81U2jhnz1sbUamuCCOQdjvhSsnacazkc8WYg/TdPFLa5ytn9QJ6cHCmQSFqG6gW04ATrDyRbdAbj0VQYRYr2BJzppQMfAU16INKuOT1PYobL/gU7sfG4JekuEIID+Y5qUu8=
+    - secure: QZB7fh42QLPf1x7EzcBFo8CmTdQTtITq3nWtQDS2CSEIJF1tMb72JTdYbHijMoYlR54oHDTCxiBPJdlqxrKgDyKbjzUWc0Kz65TtsQUwCI0GHk0SrsA+uZTT57qPFwo+rqtwvdJ5V/cGKJllTGmEfnh1SvB5eJSO5xqZwl23Tso=
+    - secure: Oj55RTiMz9kPc+1+MSdNvgtWpcTREMxtzxCkV6dqBZj4r4QeW5mdluVO2iWxpkHzBgGRsAhZGEVrZneq5DViGv++fNHstoeP/YrBoxy95vjT5uoFsSuSRsWyiLCIZKaJc5G9KVEciMpkgl4prLsvqD7ZGj6GI+iRI7kqmiIFLaA=
+    - secure: QRz3UsBQ6UI2OqWsmXrS8d/bbfDzLuSxuMdhs37xWxu1eIxt5GgNYG4pEUhpjuwK3c4vH/TiA3xb/j2HlyDyr6xD87g3DJ43v8YTyJeMZ0/laBdWQYXf0Z3k3/SQYMUrXWNpOW+75YujZub0qh+AEmlFq91+LbJCP2LzAwjoDQ0=
+    - secure: TtVnfFol1yTBRo9O25X3jnDtjMxQgG8xycFlz+2hL85GIIX8eGdvzlcNJQIqUqkqacjAN/FFwzCAHSaVoMVw3I+IXwFiOSDRoIpZHSZdwsq2wZFVbDZBO/D3is4RXgg9xE3hXhejfa4OY8ctxuaXA0pMGFdJLf/DMFJyvomA4Yc=
+    - secure: HHhFi5ResSDY3HJauR8+i48klChibajMt6LmjzBi47Mi80Mv7oQkkSHkgqhUnXzYPK6v7w/VPsE9NYIir2ZhMvR2faF2Ul5m/o3YDcBA18fyTaR2KbLAUCwJgF92hU6Cy03OH/PRAHXI/JS9LXF9VoRtOfeny65zW2tmy+GiFOI=
+    - secure: K4SY0RLMEKZbVVAWRYtGceYI6lHNU9q9jnI8Tsg6zhaJKMhwVqxNiEg0XwT8IdhFS8YsRoaWL8KUJV+SgcNp5KjOASFzb4XBrONvPSgmu85vITDx5zeuyToqaCQIwUOKo09skDlsW61DLlcblDnhVYPVVTqH9yWGldXcJ5fXUXI=
+    - secure: gpEB8KWjvK4+rVTdFrEsZutGxIAaEZ8yumJQHlpqKsmN17UcgSJ3qeHqilVWjoWAS7uJ30j7rCdRS7ffP0CVTmVuwSBqHqKDs3/GkbYzXIg6elVQzUzkbhrE6eZn+7ZE9XHywdefpM7OhRxYfBk4AxxWuKBfZo4/RcZXPqJbKXU=
+    - secure: N66W035to4yZQPJJpJCCsvCQCX4oLaxGgFBuzI6SdJHQZjN+kbGzvvzRR+Se+kW85Ev6SVG3/BFFM8mZQCsI72C8JbibosPNFPFcWQfhWAC0SJo0wALCVguajAw+g8AmeqCBD9HgPBSVElwv75dfkPd/iqXvfG+rwn8HoXYJx1o=
+    - secure: ckZiRm9BN7YSQg4D1XrkUdPnWZRbmLBQTfVHsBk5XL1N08t6OPsWX+8OblnUA96JFewpMOQoGOu3OtfaZMwmRypZOgbgUStuFTltDO9gtM/3Woidwqj1PX28V+6q43fUzhPMV6BZX4pV9bgV5X6ngusnTRfEkNj+2OxYmdupWO4=
+    - secure: if05+TfQRuvWGA6zGtt1YL4Qjyg7kvSLs4sNr9VAq3Mq/TR/zJcLP9CgXUZ75WyFQqNIyS8TS4fxE7lGSTt8FyoHrrfGT6k6d2j31u6jSv2bpkvZCqO2m09UZXk5Z9rNyHtU4biO+ckSoXL5CjGX5nvBKhg8ynb/FV11OOGWzO8=
+    - secure: VQNvmp8wIZhr+LOvs2jv9duG74KhQ4c90koqbeziXb6AOK2NnZddR3AZ/IPbezJ9fV8YXAfnkDxbHdIZ21CXHyYkAM8SfBoyPV5vd5lvg0PZecqqnpdqpGmC2zCEsMbO3RAqJSdEwFKrt1UoxmgRJ+vC+1Wh/c1VoE6cuXYvg4g=
+    - secure: TU2bM0G5GDaksd2rXBHG20R6dquK73QaVgbDpDTvZvOEyqn+cqYPrX8BqxsnJAE3HoE1+aoYag5EZiWYqpxTL5+vBChr50TvX2/DnI//IM2G/6UEK5tUaO8HDXKO8jRldyOCHoGfZMK38aonENIyjvESFVdb8aFq1zTLaGIWijg=
+    - secure: NZTmQOIY9D14dnQzCxulXF0hNUIX/UVX+YRryc4O8OX3dpZtQw3IXrLnM9ejfglOvOyyfcTFhmHZKxW0LH6kdmXB2JnyZxRsmbFj0CVC3WdENAy64F3S4+1ea+KaVraN9Uzj6mLbk5c9B5NVSXvuHenNQWRU4K31anEaV1fxOKE=
+    - secure: N6+kUsEb1bK29fEukcmCYPIQuKCY89xZ4h39mPeSF7MnLQ/pUMAt0OC+tzdUUPJkZDrEalYSEht2rmgGLKJn8sMm6LyjpCpu9xEcpFq9E/8lxduOlIlW2AldNlMFOX0qx6U6RnufDCne8V3cDK/2X04yfeUVP5U3CA1aRoaBFIA=
+    - secure: UQKJlBDZzo/wWsRr9jabC+Qu/ZECAag5ogEwqyA/t5nBY7nOCO8G8vJ/2wVgnf2wtzjGiN5cRK3sl8aDZqfyH122V5La73NHG9Ut3kynmrIWgc+F1mOzsLvvVrU7mIZoNf2Jgp3Ve67OJh6n4HKbdUX4VJEWUW3prMT+keAvaRI=
+    - secure: MPHZsiXy0kE07JwmSmt7eKL2/+ACwtFDtJiXMDa1HPAVNzUhzJcf2P5on+aH8A15LPzT7w0Xtd2T+Jn3BKqjDPm60QLbBnIQiAkRyGxYImmMSagbzGGOweaAUb+8UZclLL1gH/TqvJWfzhoDjR1NAUcGv7JieuCgigeB52f4ISc=
+    - secure: CjMuGe+LiOzcCFJR6AAQ4PXr/zElxDcl5UO5+xQiuMe/q+PLJKg+mOXWk5IhMgSbnXwXc4HcaZ+Pi1KL/28wGN+SuG20PxkH10jrxL/Ym+iwsxB8zJQhHNq/91dZarHKknRGZ9bSSpDh55m5ovtXiSvuVtMRMCyAsGErBkpGREg=
+    - secure: UFNBd8UcXxE4s4WFHPrPzp0bsvT0FXansD5gPd/HjY0R7lEBJJ9X/jlI5+mk3BN1SOBg8lmxbiua/TbCW4Enr6IfWhyr41niKhuIc/+mWtrOHKa2Q8YDOh/lh10k0UXPoeMPb61AE28A2jG0WI8K3GgAceCvg75yVFcchUOQjDY=
+    - secure: A34ZYczxiywCgwME+6DQ3P/138NS0JbHB06OqT39EXcUBl9XvVnsYBQOTU+GLDpfL9uZuzVJfMpYoJ6+TLwbadZ8h9Q4SetheP24zyIN4OnELiLK9qgMxeCpJ04Ma+/+diL12i2A0C6BNPoz6t0mfzkuTs3BGR+AAF/Sn0w3zl8=
 
 branches:
   only:
-    - master
-    - 10-stable
-    - 11-stable
+  - master
+  - 10-stable
+  - 11-stable
 
 script: bundle exec rspec --color --format progress
-
-notifications:
-  on_success: change
-  on_failure: always
-  on_start: false
-  irc:
-    channels:
-      - "chat.freenode.net#chef-hacking"
-  webhooks:
-    urls:
-      # Gitter IM
-      - secure: "HmMKr/ysKVyKUJ24PRCHcA8QCmlFoukrYumY0GRLzvaFWO8PknHO1t/0RbrKRb2ed/hgkFd+RKNCYvSvcE8Ahr2vlMrBeGHGfVeOGkWtbhLgNqo1b50Ll9CqvTM8X2ZIq6hIWraanwoYRQu/8uGL29yH4lBi7DhpTkFwBMLulhQ="
-  hipchat:
-    rooms:
-      # Build Statuses
-      - secure: "G8MNo94L8bmWWwkH2/ViB2QaZnZHZscYM/mEjDbOGd15sqrruwckeARyBoUcRI7P1C6AFmS4IKCNVXa6KzX4Pbh51gQWM92zRpRTZpplwtXz53/1l8ajLFLLMLvEMTlBFAANUKEUFAQPY4dMa14V3Qc5oijfIncN61k4nZNTKpY="
-      # Open Source
-      - secure: "hmcex4PpG5dn8WvjndONO4xCUKOC5kPU/bUEGRrfVbe2YKJE7t0XXbNDC96W/xBgzgnJzvf1Er0zJKDrNf4qEDEWFoozdN00WLcqREgaLLS3Seto2FjR/BpBk5q+sCV0rwwEMms2P4Qk+VSnDCnm9EaeM55hOabqNuOrRzoZLBQ="
