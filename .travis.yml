@@ -13,15 +13,17 @@ before_install:
 
 matrix:
   include:
-    - rvm: 1.8.7-p374
-    - rvm: 1.9.3
-    - rvm: 2.0.0
+    # Commenting these out for now so that Travis runs don't take forever to
+    # get to the parts I'm working on right now...
+    # - rvm: 1.8.7-p374
+    # - rvm: 1.9.3
+    # - rvm: 2.0.0
+    # - rvm: 2.1.1
+    # - rvm: 2.1.1
+    #   gemfile: pedant.gemfile
+    #   script: bundle exec rake pedant
     - rvm: 2.1.1
-    - rvm: 2.1.1
-      gemfile: pedant.gemfile
-      script: bundle exec rake pedant
-    - rvm: 2.1.1
-      script: cd spec/e2e; bundle install; bundle exec kitchen test default-ubuntu-1204
+      script: sh -c 'cd spec/e2e'; bundle install; bundle exec kitchen test default-ubuntu-1204
       env:
         # access key id
         - secure: "cSoSxpNYaAjZRn5vbvPrSGZJ3qnQSD3gBriErMO8Y53wFfswViqSbrc57TYR8tROHcbhi0Sj5ar7p9nyKZNj5Wr+UIkd4jRthbpS9GBVAVscmTOotgbZt1o1QeJ0ZarE3JzrpTQPnDM++QtVOD8+WOp2VvSIGN24fhuvV5jKtzk="
