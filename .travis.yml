@@ -10,13 +10,14 @@ matrix:
     - echo -n $DO_KEY_CHUNK_{0..30} >> ~/.ssh/id_aws.base64
     - cat ~/.ssh/id_aws.base64 | tr -d ' ' | base64 --decode > ~/.ssh/id_aws.pem
     before_script: cd spec/e2e
-    script: echo $(md5sum ~/.ssh/id_aws.pem)
+    script: bundle exec kitchen test default-ubuntu-1204
+    after_script: bundle exec kitchen destroy default-ubuntu-1204
     env:
-    - secure: HnEEBuJN2nwuOmONQtwY+T48cWwmMSXKh/p1XmJRx83aJH7aYecJzotdnU+wCd6Fsy09tNYZMrUnW9/OGR9B6a/3eIsphf4cMtrJU1ee7bZR5ZKSF+/8V1soGgXnC0tRQ6q9aVfBRHnuMQIeuxMSj+XzD5bwIlOR23gD5h0YmjU=
-    - secure: c72KYyOeQo6b86f1Gz4c4OST24ahF/PfeA7PkkTQnflYcwSBuN2rD0Bt6slBgG0YRE1GvQku0U7/OHMqdSCuY/6Y0E+bSh9CC9/Q9DM5592oj1r6qW5JK7IN36u6bzGyEf6aPYU8/XV2AoYyhGjxXuHvnD9FNlFASKOkG8ky7sE=
-    - secure: bFUCu8B+D0OysdP8ELKATw2sqGR8D2UnRS8FXjnd7PPdpNxuzto/UrgDD+lzO7roF33vF2BrT1+965AFYh7qajzF0G3Nxs7G0AcDp6VOi/NZveMJHnrH/seJ3Ro1yOhDLsUO521KKb0oWKR7bPB7+gJ1xI605BbTW0XRY+qbvmU=
-    - secure: VQ7YSzV7nMmMI5QU5W3lkUQ/4Ob1NoMmJBj0s/5Mnav6sdN6LffI3vB7EyvYbL2xcac5DFdNKbNgAJ54Kx4uW2ZF6vTI0amaww7QxpDqfPnQT0tF/o77GhKaJhlbqscXTncGECQ6aS4p79Rb0YN/8hYpGfa2vc+FY6W0hMu4n08=
     - EC2_SSH_KEY_PATH=~/.ssh/id_aws.pem
+    - secure: ZqiSYtBInC3eN3ZkSCWKUoRCxUfXcuSOci+31682nbeKGX9vCZSpALUZ4qKEXTQw+VBqMMN4/Pa0501rD9emUcpsaFwc5x9G/Z72R+JrbGEJZOV3sqbBa1f4zX/3IxgMnMlIzTbwxvx8nU12M9BMc33HBptn6hijLD30N+Z42EI=
+    - secure: XMkJUSzzrtzUaQedpX6rL+a6345xvX4Xw4G8ULetCYDDHhj5U2HjCe1x2qg62XsTaC5kIDLMEu4AnEDjPyx3MAnZ1DyPZciYY7XmZiwNSzgnWbOus19gDES7sti6QNdwgJfZC9WjPA/eQXX+DcHg18aFd2/wzwNtlR5XzmJtll4=
+    - secure: PYzyD7cghX40GfksoJDbCfU2ID6/aEBJxpLvvFg1RW60CUS6iopNZ16ghgz2ANJ8S7PUZwc+CNOpxAzSD85SPNcDdc4cNZjFeOewb+B83ky4sg534YBIdrMFsQ8AkHi/amTnuxDE1yzV8XvEVsSdjHEiy/eFnflAeGspwRN6m2M=
+    - secure: UMBWLf/6XjVTx2eSpvYe6+N3cPrZClIXskhGbqDAJuGPBwFylP9JLvw/ym5ZLl0Xe21zpbyuWXT5uAaR+H6DCueQ/EjPwYVj0d64F95aXb7via19Y+z82IafUAz7CN71CvStJwNMiP2ODM5ZnzvxOHcDu5EMZC69jbqy48sm4yA=
     - secure: HlqUKU/etP5CUxULha8LzR+xZOej+jH6zPJCxq34xNIycGKVJBFn852Hf/SlSWcJLTIX78xfAnsal55B/w4GsPUrVuiNQ2hj/43D1PuFIqC4dV37AS6swaB+q14+CyFbonYyKnaJmdDMaE1Yh3Tj7jF4+arJlZkq1gMzxpLkLkA=
     - secure: YWlTy/rWEbbYfZrrz9mxc5C0wsob7a3leaFC03sdWbxAtrwjO0UyH2hEgW6EH70V2qZzSyWURHz+Dc9FJbQGe/ZyVzzK3O8gBc/VjImaJ6S06UmViTlqwheFZEUnZfmwFTgG/fjKgc08GQ8OnbyjvA8oj2P8QILx5+GGpqvNuM4=
     - secure: Sd1G7ua7zVSphhav4I8ZO6q3luWN/UAcrfG1Han2q3y7ij9IorzoaDFS16y2ZLTHi4hlS11sJNnyph/Madj/HzHeMW7cyWJgvPLtCSuYaU3ygWEU0YMezOWDXzSDG1+VJ31qtAV0rY6+Kr+bqXvzeQD3X8+Yxy8CTXCcTXhul+M=
