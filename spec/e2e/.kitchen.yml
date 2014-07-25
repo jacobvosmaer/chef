@@ -18,6 +18,7 @@ platforms:
       region: "us-west-2"
       availability_zone: "us-west-2b"
       ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+      security_groups: ["default"]
 
 suites:
   - name: default
