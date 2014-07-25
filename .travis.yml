@@ -23,7 +23,8 @@ matrix:
     #   gemfile: pedant.gemfile
     #   script: bundle exec rake pedant
     - rvm: 2.1.1
-      script: sh -c 'cd spec/e2e'; bundle install; bundle exec kitchen test default-ubuntu-1204
+      gemfile: spec/e2e/Gemfile
+      script: sh -c 'cd spec/e2e' && bundle exec kitchen test default-ubuntu-1204
       env:
         # access key id
         - secure: "cSoSxpNYaAjZRn5vbvPrSGZJ3qnQSD3gBriErMO8Y53wFfswViqSbrc57TYR8tROHcbhi0Sj5ar7p9nyKZNj5Wr+UIkd4jRthbpS9GBVAVscmTOotgbZt1o1QeJ0ZarE3JzrpTQPnDM++QtVOD8+WOp2VvSIGN24fhuvV5jKtzk="
